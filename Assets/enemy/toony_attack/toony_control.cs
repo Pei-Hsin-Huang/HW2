@@ -68,12 +68,14 @@ public class toony_control : MonoBehaviour
             dir.y = 0;
             toony.transform.rotation = Quaternion.Slerp(toony.transform.rotation,Quaternion.LookRotation(dir),0.3f);
             a.SetBool( "attack", true );
+            player.GetComponent<movement>().hitted_by_toony = true;
             return true;
         }
 
         else
         {
             a.SetBool( "attack", false );
+            player.GetComponent<movement>().hitted_by_toony = false;
             return false;
         }
     }

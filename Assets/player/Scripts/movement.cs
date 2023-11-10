@@ -10,20 +10,19 @@ public class movement : MonoBehaviour
     float hInput, vInput;
     CharacterController controller;
     Animator a;
-    bool hitted = false;
-    
+    public bool hitted_by_toony = false;
+    private int hittedState;
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<CharacterController>();
         a = GameObject.Find("MaleCharacterPolyart").GetComponent<Animator>();
+        hittedState = Animator.StringToHash("Base Layer.GetHit01_SwordAndShield");
     }
 
     // Update is called once per frame
     void Update()
     {
-        //AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
-
         if(controller.isGrounded){
             hInput = Input.GetAxis("Horizontal");
             vInput = Input.GetAxis("Vertical");
@@ -51,16 +50,36 @@ public class movement : MonoBehaviour
         }
 
 
-        if ( hitted )
+        /*if ( !(currentState.fullPathHash == Animator.StringToHash("GetHit01_SwordAndShield")) )
         {
-            a.SetBool( "hit", true );
+            if ( hitted )
+            {
+                a.SetBool( "hit", true );
+            }
+            else
+            {
+                a.SetBool( "hit", false );
+                print( "leave" );
+                hitted = false;
+            }
         }
         
         else
         {
             a.SetBool( "hit", false );
+            print( "leave" );
+            hitted = false;
+        }*/
+        AnimatorStateInfo currentState = a.GetCurrentAnimatorStateInfo(0);
+
+        if (currentState.fullPathHash == hittedState){
+            //print("test");
+            a.SetBool( "hit", false );
         }
-        
+
+        if ( hitted_by_toony )
+            a.SetBool( "hit", true );
+
 
 
         dir += Physics.gravity * Time.deltaTime;
@@ -71,11 +90,43 @@ public class movement : MonoBehaviour
     {
         if ( other.gameObject.name == "little_boom(Clone)" )
         {
-            print("hit");
-            //a.SetBool( "hit", true );
-            hitted = true;
+            //print("hit");
+            a.SetBool( "hit", true );
+            //hitted = true;
+        }
+
+        else if ( other.gameObject.name == "TT_RTS_Demo_Character Variant" )
+        {
+            //print("hit");
+            a.SetBool( "hit", true );
+            //hitted = true;
+        }
+
+        else if ( other.gameObject.name == "PolyArtWizardMaskTintMat Variant" )
+        {
+            //print("hit");
+            a.SetBool( "hit", true );
+            //hitted = true;
+        }
+
+        else if ( other.gameObject.name == "PolyArtWizardStandardMat Variant" )
+        {
+            //print("hit");
+            a.SetBool( "hit", true );
+            //hitted = true;
         }
         
+    }
+
+    void OnParticleCollision(GameObject other)
+    {
+        print( "pc2" );
+        if ( other.gameObject.name == "blue_att" )
+        {
+            //print("hit");
+            a.SetBool( "hit", true );
+            //hitted = true;
+        }
     }
 
     
